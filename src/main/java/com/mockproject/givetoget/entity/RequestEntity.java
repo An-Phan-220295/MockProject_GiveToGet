@@ -1,0 +1,36 @@
+package com.mockproject.givetoget.entity;
+
+
+import jakarta.persistence.*;
+import lombok.Data;
+
+import java.time.LocalDate;
+import java.util.List;
+
+@Data
+@Entity
+@Table(name = "request")
+public class RequestEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String title;
+    private String description;
+    private String img;
+    private LocalDate createDate;
+    private LocalDate updateDate;
+
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    private UserInforEntity user;
+
+    @OneToMany(mappedBy = "request")
+    private List<CommentRequestEntity> comments;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_status", nullable = false)
+    private StatusEntity status;
+
+    @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemEntity> item;
+}
