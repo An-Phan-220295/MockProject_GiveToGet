@@ -37,8 +37,11 @@ public class UserInforEntity {
     private AddressEntity address;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Bình luận do người dùng tạo
-    private List<CommentRequestEntity> comments;
+    private List<TransactionEntity> transaction;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL) // Bình luận nhắc đến người dùng này
-    private List<CommentRequestEntity> partnerComments;
+    private List<TransactionEntity> partnerTransaction;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentRequestEntity> commentRequest;
 }

@@ -14,5 +14,4 @@ public class StatusEntity {
     private int idStatus;
     private String status;
 
-
 }
