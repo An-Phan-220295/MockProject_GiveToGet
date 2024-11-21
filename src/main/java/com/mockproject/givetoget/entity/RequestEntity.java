@@ -17,6 +17,7 @@ public class RequestEntity {
     private String title;
     private String description;
     private String img;
+    private boolean type;
     private LocalDate createDate;
     private LocalDate updateDate;
 
@@ -25,7 +26,7 @@ public class RequestEntity {
     private UserInforEntity user;
 
     @OneToMany(mappedBy = "request")
-    private List<CommentRequestEntity> comments;
+    private List<TransactionEntity> transactions;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)

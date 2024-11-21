@@ -13,21 +13,16 @@ public class CommentRequestEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     private String comment;
     private LocalDate createdDate;
     private LocalDate updateDate;
 
-    @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false) // Người tạo bình luận
-    private UserInforEntity user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_transaction")
+    private TransactionEntity transaction;
 
-    @ManyToOne
-    @JoinColumn(name = "id_partner", nullable = true) // Người liên quan
-    private UserInforEntity partner;
-
-    @ManyToOne
-    @JoinColumn(name = "id_request", nullable = false)
-    private RequestEntity request;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_user", nullable = false)
+    private UserInforEntity users;
 }
 

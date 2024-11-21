@@ -15,6 +15,9 @@ public class ItemEntity {
     private int id;
     private String itemName;
     private String itemDescription;
+    private int quantity;
+    private int currentQuantity;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_request")
