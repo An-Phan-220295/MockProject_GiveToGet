@@ -4,7 +4,7 @@ package com.mockproject.givetoget.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,8 +18,8 @@ public class RequestEntity {
     private String description;
     private String img;
     private boolean type;
-    private LocalDate createDate;
-    private LocalDate updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 
     @ManyToOne
     @JoinColumn(name = "id_user")
