@@ -39,6 +39,4 @@ public class ProvincesEntity {
     @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<DistrictEntity> districts;
 
-    @OneToMany(mappedBy = "province", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AddressEntity> addresses;
 }
