@@ -23,6 +23,7 @@ public class AddressService {
     private final ProvinceRepository provinceRepository;
     private final DistrictRepository districtRepository;
     private final WardRepository  wardRepository;
+
     public List<ProvinceRespone> findAllProvinces() {
         // Fetch all provinces from the repository
         List<ProvincesEntity> provinces = provinceRepository.findAll();
