@@ -7,11 +7,15 @@ import com.mockproject.givetoget.repository.RequestRepository;
 import com.mockproject.givetoget.response.GivenRequestsResponse;
 import com.mockproject.givetoget.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -19,13 +23,14 @@ public class RequestServiceImpl implements RequestService {
     private RequestRepository requestRepository;
 
     @Override
-    public List<GivenRequestsResponse> findAllGivenRequest() {
-        List<RequestEntity> requestEntities = requestRepository.findAllGivenRequest(true, "OPENING");
-        if(requestEntities.size() == 0){
-            throw new NoDataException("There is no given request");
-        }
+    public List<GivenRequestsResponse> findAllGivenRequest(int pageNumber, Optional<String> provinceCode
+            , Optional<String> districtCode, Optional<String> wardCode, Optional<String> search) {
+        Pageable pageable = PageRequest.of(pageNumber, 5);
+        Page<RequestEntity> requestEntities = requestRepository.findAllGivenRequest(true, "OPENING", pageable
+                , provinceCode, districtCode, wardCode, search);
+
         List<GivenRequestsResponse> givenRequestsResponses = new ArrayList<>();
-        for (RequestEntity data : requestEntities) {
+        for (RequestEntity data : requestEntities.getContent()) {
             StringBuilder address = new StringBuilder();
             List<String> items = new ArrayList<>();
 
@@ -35,6 +40,7 @@ public class RequestServiceImpl implements RequestService {
                     .append(data.getUser().getAddress().getWard().getDistrict().getProvince().getFullName()).append(".");
             for (ItemEntity item : data.getItem()) {
                 items.add(item.getItemName());
+                //Create an items in request
             }
 
             String content = data.getDescription();

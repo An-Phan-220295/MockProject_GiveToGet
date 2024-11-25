@@ -2,7 +2,7 @@ $(document).ready(function(){
     var contentElement = $("#list-request")
     var paginElement = $("#pagination")
     $.ajax({
-        url: "http://localhost:8080/api/v1/givenrequest",
+        url: "http://localhost:8080/api/v1/givenrequest?pageNumber=0&&wardCode=00076",
         type: 'GET',
         dataType: 'json', // added data type
         success: function(data) {
@@ -15,7 +15,7 @@ $(document).ready(function(){
                 var request = data.data
                 request.forEach(element => {
                     var html = `<div class="mb-3">
-            <a href="" style="text-decoration: none">
+            <a href="" style="text-decoration: none" request-id="${element.id}">
               <div class="card">
                 <div class="card-body row">
                   <div
