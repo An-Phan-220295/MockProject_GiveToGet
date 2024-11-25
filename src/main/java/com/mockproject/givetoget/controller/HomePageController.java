@@ -1,15 +1,8 @@
 package com.mockproject.givetoget.controller;
 
-
-import com.mockproject.givetoget.entity.DistrictEntity;
-import com.mockproject.givetoget.entity.ProvincesEntity;
-import com.mockproject.givetoget.entity.WardEntity;
 import com.mockproject.givetoget.reponse.DistrictRespone;
 import com.mockproject.givetoget.reponse.ProvinceRespone;
 import com.mockproject.givetoget.reponse.WardResponse;
-import com.mockproject.givetoget.repository.DistrictRepository;
-import com.mockproject.givetoget.repository.ProvinceRepository;
-import com.mockproject.givetoget.repository.WardRepository;
 import com.mockproject.givetoget.service.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,14 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class HomePageController {
-    @Autowired
-    private ProvinceRepository provinceRepository;
-
-    @Autowired
-    private DistrictRepository districtRepository;
-
-    @Autowired
-    private WardRepository wardRepository;
 
     @Autowired
     private AddressService addressService;
