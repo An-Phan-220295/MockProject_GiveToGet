@@ -1,9 +1,7 @@
 package com.mockproject.givetoget.service;
 
 
-import com.mockproject.givetoget.entity.DistrictEntity;
 import com.mockproject.givetoget.entity.ProvincesEntity;
-import com.mockproject.givetoget.entity.WardEntity;
 import com.mockproject.givetoget.reponse.DistrictRespone;
 import com.mockproject.givetoget.reponse.ProvinceRespone;
 import com.mockproject.givetoget.reponse.WardResponse;
@@ -13,7 +11,6 @@ import com.mockproject.givetoget.repository.WardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -20,6 +20,7 @@ public class RequestEntity {
     private boolean type;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
+    private String itemNames;
 
     @ManyToOne
     @JoinColumn(name = "id_user")

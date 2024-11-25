@@ -17,5 +17,5 @@ public class GivenRequestsResponse {
     private String address;
     private String content;
     private String image;
-    private List<String> itemsName;
+    private String itemsName;
 }
