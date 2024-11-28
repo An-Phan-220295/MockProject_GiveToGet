@@ -26,7 +26,7 @@ public class GivenRequestController {
                                                 @RequestParam(required = false) String districtCode,
                                                 @RequestParam(required = false) String wardCode,
                                                 @RequestParam(required = false) String search) {
-        System.out.println(pageNumber);
+        System.out.println(districtCode);
         BaseResponse baseResponse = new BaseResponse().builder()
                 .code(CodeMessage.SUCCESS.getCode())
                 .message(CodeMessage.SUCCESS.getMessage())
