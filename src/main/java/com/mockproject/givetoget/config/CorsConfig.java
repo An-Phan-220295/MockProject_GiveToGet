@@ -24,6 +24,7 @@ public class CorsConfig {
                     configuration.setAllowedHeaders(Arrays.asList("*"));
                     return configuration;
                 }))
+                .csrf(csrf -> csrf.disable())
                 .authorizeRequests()
                 .anyRequest().permitAll();
 
