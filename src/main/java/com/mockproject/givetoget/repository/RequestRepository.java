@@ -27,4 +27,6 @@ public interface RequestRepository extends JpaRepository<RequestEntity, Integer>
                                             @Param("districtCode") Optional<String> districtCode,
                                             @Param("wardCode") Optional<String> wardCode,
                                             @Param("search") Optional<String> search);
+
+    RequestEntity findByIdAndStatus_Status(int id, String status);
 }

@@ -13,5 +13,4 @@ public class StatusEntity {
     @Id
     private int idStatus;
     private String status;
-
 }

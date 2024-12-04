@@ -1,10 +1,17 @@
 package com.mockproject.givetoget.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "image")
 public class ImageEntity {
@@ -14,6 +21,7 @@ public class ImageEntity {
     private String imageName;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_item")
-    private ItemEntity item;
+    @JoinColumn(name = "id_request")
+    @JsonIgnore
+    private RequestEntity requestEntity;
 }
