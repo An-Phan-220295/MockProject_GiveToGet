@@ -1,4 +1,4 @@
-    package com.mockproject.givetoget.reponse;
+    package com.mockproject.givetoget.response;
 
     import lombok.AllArgsConstructor;
     import lombok.Builder;

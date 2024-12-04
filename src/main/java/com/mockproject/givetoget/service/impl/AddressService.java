@@ -1,10 +1,10 @@
-package com.mockproject.givetoget.service;
+package com.mockproject.givetoget.service.impl;
 
 
 import com.mockproject.givetoget.entity.ProvincesEntity;
-import com.mockproject.givetoget.reponse.DistrictRespone;
-import com.mockproject.givetoget.reponse.ProvinceRespone;
-import com.mockproject.givetoget.reponse.WardResponse;
+import com.mockproject.givetoget.response.DistrictRespone;
+import com.mockproject.givetoget.response.ProvinceRespone;
+import com.mockproject.givetoget.response.WardResponse;
 import com.mockproject.givetoget.repository.DistrictRepository;
 import com.mockproject.givetoget.repository.ProvinceRepository;
 import com.mockproject.givetoget.repository.WardRepository;

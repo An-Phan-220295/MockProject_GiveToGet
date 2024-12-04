@@ -1,12 +1,12 @@
 package com.mockproject.givetoget.service.impl;
 
-import com.mockproject.givetoget.entity.ItemEntity;
 import com.mockproject.givetoget.entity.RequestEntity;
 import com.mockproject.givetoget.response.DataResponse;
 import com.mockproject.givetoget.repository.RequestRepository;
 import com.mockproject.givetoget.response.GivenRequestsResponse;
 import com.mockproject.givetoget.service.RequestService;
 import com.mockproject.givetoget.utils.Utils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class RequestServiceImpl implements RequestService {
@@ -24,29 +25,49 @@ public class RequestServiceImpl implements RequestService {
     private RequestRepository requestRepository;
     @Autowired
     private Utils utils;
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public DataResponse findAllGivenRequest(int pageNumber, Optional<String> provinceCode
+    public DataResponse<List<GivenRequestsResponse>> findAllGivenRequest(int pageNumber, Optional<String> provinceCode
             , Optional<String> districtCode, Optional<String> wardCode, Optional<String> search) {
         Pageable pageable = PageRequest.of(pageNumber, 5);
         Page<RequestEntity> requestEntities = requestRepository.findAllGivenRequest(true, "OPENING", pageable
                 , provinceCode, districtCode, wardCode, search);
 
-        List<GivenRequestsResponse> givenRequestsResponses = new ArrayList<>();
-        for (RequestEntity data : requestEntities.getContent()) {
+//        List<GivenRequestsResponse> givenRequestsResponses = new ArrayList<>();
+//        for (RequestEntity data : requestEntities.getContent()) {
+//
+//            String content = data.getDescription();
+//
+//            GivenRequestsResponse givenRequestsResponse = GivenRequestsResponse.builder()
+//                    .id(data.getId())
+//                    .title(data.getTitle())
+//                    .createDate(utils.formatDateTime(data.getCreateDate()))
+//                    .userName(data.getUser().getUsername())
+//                    .address(utils.convertAddressToString(data))
+//                    .content(content.length() > 200 ? content.substring(0, 200) + " . . ." : content)
+//                    .image(!data.getImageEntities().isEmpty() ? data.getImageEntities().get(0).getImageName() : null)
+//                    .itemsName(data.getItemNames())
+//                    .build();
+//
+//            givenRequestsResponses.add(givenRequestsResponse);
+//        }
 
-            String content = data.getDescription();
-            GivenRequestsResponse givenRequestsResponse = new GivenRequestsResponse().builder()
-                    .id(data.getId())
-                    .title(data.getTitle())
-                    .createDate(DateTimeFormatter.ofPattern("hh:mm dd/MM/yyyy").format(data.getCreateDate()))
-                    .userName(data.getUser().getUsername())
-                    .address(utils.convertAddressToString(data))
-                    .content(content.length() > 200 ? content.substring(0, 200) + " . . ." : content)
-                    .image(data.getImg())
-                    .itemsName(data.getItemNames())
-                    .build();
-            givenRequestsResponses.add(givenRequestsResponse);
-        }
-        return new DataResponse(requestEntities.getTotalPages(),givenRequestsResponses);
+        List<GivenRequestsResponse> givenRequestsResponses = requestEntities.getContent().stream().map(data -> {
+            // Use ModelMapper for base mapping
+            GivenRequestsResponse response = modelMapper.map(data, GivenRequestsResponse.class);
+
+            // Custom mapping
+            response.setAddress(utils.convertAddressToString(data));
+            response.setCreateDate(utils.formatDateTime(data.getCreateDate()));
+            response.setImage(data.getImageEntities() != null && !data.getImageEntities().isEmpty()
+                    ? data.getImageEntities().get(0).getImageName()
+                    : null);
+            response.setItemsName(data.getItemNames());
+
+            return response;
+        }).collect(Collectors.toList());
+        return new DataResponse<>(requestEntities.getTotalPages(), givenRequestsResponses);
     }
 }
