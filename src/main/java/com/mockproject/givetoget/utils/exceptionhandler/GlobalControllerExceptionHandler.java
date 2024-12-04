@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalControllerExceptionHandler {
     @ExceptionHandler(NoDataException.class)
     public ResponseEntity<?> NoDataExceptionHandler(NoDataException e) {
-        BaseResponse baseResponse = new BaseResponse().builder()
+        BaseResponse<Object> baseResponse = BaseResponse.builder()
                 .code(CodeMessage.NO_DATA.getCode())
                 .message(CodeMessage.NO_DATA.getMessage())
                 .build();

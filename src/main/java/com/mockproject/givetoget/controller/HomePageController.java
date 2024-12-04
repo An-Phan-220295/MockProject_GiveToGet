@@ -1,9 +1,9 @@
 package com.mockproject.givetoget.controller;
 
-import com.mockproject.givetoget.reponse.DistrictRespone;
-import com.mockproject.givetoget.reponse.ProvinceRespone;
-import com.mockproject.givetoget.reponse.WardResponse;
-import com.mockproject.givetoget.service.AddressService;
+import com.mockproject.givetoget.response.DistrictRespone;
+import com.mockproject.givetoget.response.ProvinceRespone;
+import com.mockproject.givetoget.response.WardResponse;
+import com.mockproject.givetoget.service.impl.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

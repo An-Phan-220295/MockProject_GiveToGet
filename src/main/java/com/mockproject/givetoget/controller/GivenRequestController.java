@@ -1,7 +1,6 @@
 package com.mockproject.givetoget.controller;
 
 import com.mockproject.givetoget.response.BaseResponse;
-import com.mockproject.givetoget.response.DataResponse;
 import com.mockproject.givetoget.service.RequestService;
 import com.mockproject.givetoget.utils.CodeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ public class GivenRequestController {
                                                 @RequestParam(required = false) String districtCode,
                                                 @RequestParam(required = false) String wardCode,
                                                 @RequestParam(required = false) String search) {
-        System.out.println(districtCode);
         BaseResponse baseResponse = new BaseResponse().builder()
                 .code(CodeMessage.SUCCESS.getCode())
                 .message(CodeMessage.SUCCESS.getMessage())
