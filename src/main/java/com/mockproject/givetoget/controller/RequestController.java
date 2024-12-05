@@ -42,10 +42,7 @@ public class RequestController {
             // Save all files
             List<String> fileNames = imageService.saveMultipleImgItems(files);
 
-            List<ImageEntity> images = new ArrayList<>();
-            for (String fileName : fileNames) {
-                images.add(ImageEntity.builder().imageName(fileName).build());
-            }
+
 
             // Combine item names
             String items = data.getItem().stream()
@@ -60,10 +57,17 @@ public class RequestController {
                     .createDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
                     .itemNames(items)
-                    .imageEntities(images)
                     .build();
 
             request = requestRepository.save(request);
+
+            List<ImageEntity> images = new ArrayList<>();
+            for (String fileName : fileNames) {
+                images.add(ImageEntity.builder().requestEntity(request).imageName(fileName).build());
+            }
+            request.setImageEntities(images);
+            request = requestRepository.save(request);
+
 
             // Create and save items
             List<ItemEntity> itemEntities = new ArrayList<>();
@@ -72,6 +76,7 @@ public class RequestController {
                         .itemName(item.getItemName())
                         .quantity(item.getQuantities())
                         .currentQuantity(item.getQuantities())
+                        .request(request)
                         .build();
                 itemEntities.add(itemEntity);
             }

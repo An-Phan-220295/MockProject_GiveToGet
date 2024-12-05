@@ -35,7 +35,7 @@ $(document).ready(function () {
                               <div class="card">
                                   <div class="card-body row">
                                       <div class="col-2 d-flex justify-content-center align-items-center">
-                                          <img src="/image/${element.image}" class="img-thumbnail mx-auto" alt="..." style="width: 120px" />
+                                          <img src="/image/item/${element.image}" class="img-thumbnail mx-auto" alt="..." style="width: 120px" />
                                       </div>
                                       <div class="col-10">
                                           <div class="card-title mb-3">

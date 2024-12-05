@@ -20,8 +20,7 @@ public class ImageEntity {
     private int id;
     private String imageName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_request")
-    @JsonIgnore
     private RequestEntity requestEntity;
 }
