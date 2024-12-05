@@ -1,9 +1,14 @@
 package com.mockproject.givetoget.controller;
 
+import com.mockproject.givetoget.entity.ImageEntity;
 import com.mockproject.givetoget.entity.ItemEntity;
 import com.mockproject.givetoget.entity.RequestEntity;
+import com.mockproject.givetoget.entity.StatusEntity;
 import com.mockproject.givetoget.repository.ItemRepository;
 import com.mockproject.givetoget.repository.RequestRepository;
+import com.mockproject.givetoget.repository.StatusRepository;
+import com.mockproject.givetoget.request.CreateRequestData;
+import com.mockproject.givetoget.request.ItemRequest;
 import com.mockproject.givetoget.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,48 +27,56 @@ public class RequestController {
 
     @Autowired
     private ItemRepository itemRepository;
-
+    @Autowired
     private ImageService imageService;
+
+    @Autowired
+    private StatusRepository statusRepository;
 
     @PostMapping("/v1/givenrequest/create")
     public String createRequest(
-            @RequestParam("title") String title,
-            @RequestParam("description") String description,
-            @RequestParam("image") MultipartFile image,
-            @RequestParam("itemNames") List<String> itemNames,
-            @RequestParam("quantities") List<Integer> quantities
+            @RequestPart("data") CreateRequestData data,
+            @RequestPart("files") List<MultipartFile> files
     ) {
         try {
-            // Save image file and get file name
-            String fileName = image.getOriginalFilename();
-            imageService.saveImgItem(image);
+            // Save all files
+            List<String> fileNames = imageService.saveMultipleImgItems(files);
+
+            List<ImageEntity> images = new ArrayList<>();
+            for (String fileName : fileNames) {
+                images.add(ImageEntity.builder().imageName(fileName).build());
+            }
+
+            // Combine item names
+            String items = data.getItem().stream()
+                    .map(ItemRequest::getItemName)
+                    .reduce("", (acc, name) -> acc + ", " + name);
 
             // Create request entity
             RequestEntity request = RequestEntity.builder()
-                    .title(title)
-                    .description(description)
+                    .title(data.getTitle())
+                    .description(data.getDescription())
+                    .status(statusRepository.findById(1))
                     .createDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
-                    .itemNames(String.join(", ", itemNames))
+                    .itemNames(items)
+                    .imageEntities(images)
                     .build();
 
             request = requestRepository.save(request);
 
             // Create and save items
-            List<ItemEntity> items = new ArrayList<>();
-            for (int i = 0; i < itemNames.size(); i++) {
-                ItemEntity item = ItemEntity.builder()
-                        .itemName(itemNames.get(i))
-                        .quantity(quantities.get(i))
-                        .currentQuantity(quantities.get(i)) // Initialize currentQuantity as 0
-                        .request(request)
+            List<ItemEntity> itemEntities = new ArrayList<>();
+            for (ItemRequest item : data.getItem()) {
+                ItemEntity itemEntity = ItemEntity.builder()
+                        .itemName(item.getItemName())
+                        .quantity(item.getQuantities())
+                        .currentQuantity(item.getQuantities())
                         .build();
-                items.add(item);
+                itemEntities.add(itemEntity);
             }
-            itemRepository.saveAll(items);
 
-            // Update request with image file name
-            request.setItemNames(fileName); // Assuming itemNames column is used for the image file name
+            request.setItem(itemEntities);
             requestRepository.save(request);
 
             return "Request created successfully!";
@@ -72,4 +85,6 @@ public class RequestController {
             return "Failed to create request: " + e.getMessage();
         }
     }
+
+
 }

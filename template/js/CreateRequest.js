@@ -32,97 +32,89 @@ $(document).ready(function () {
         $(this).closest(".row").remove();
     });
 
-    // Form submission
-    $("#create-request-form").on("submit", function (e) {
-        e.preventDefault(); // Prevent default form submission
+    $(document).ready(function () {
+        $("#create-request-form").on("submit", function (e) {
+            e.preventDefault();
 
-        let isValid = true;
-        let errorMessage = "Please fill all mandatory fields";
+            let isValid = true;
+            let errorMessage = "Please fill all mandatory fields";
 
-        // Validate Title, Description, and Image Upload
-        const title = $("#title");
-        const description = $("#description");
-        const imageUpload = $("#image-upload");
+            const title = $("#title");
+            const description = $("#description");
+            const imageUploads = $("#image-uploads")[0].files;
 
-        validateField(title);
-        validateField(description);
+            validateField(title);
+            validateField(description);
 
-
-        if (!imageUpload.val()) {
-            isValid = false;
-            setFieldError(imageUpload);
-        } else {
-            setFieldValid(imageUpload);
-        }
-
-        // Validate Items
-        let items = [];
-        $(".item-name").each(function (index) {
-            const name = $(this).val().trim();
-            const quantity = $(".item-quantity").eq(index).val().trim();
-
-            if (!name || !quantity || quantity <= 0) {
+            if (!imageUploads.length) {
                 isValid = false;
-                setFieldError($(this));
-                setFieldError($(".item-quantity").eq(index));
+                setFieldError($("#image-uploads"));
             } else {
-                setFieldValid($(this));
-                setFieldValid($(".item-quantity").eq(index));
-                items.push({ name: name, quantity: quantity });
+                setFieldValid($("#image-uploads"));
             }
-        });
 
-        if (!isValid) {
-            $("#error").text(errorMessage);
-            return;
-        }
+            let items = [];
+            $(".item-name").each(function (index) {
+                const name = $(this).val().trim();
+                const quantity = $(".item-quantity").eq(index).val().trim();
 
-        // Collect form data
-        let formData = new FormData();
-        formData.append("title", title.val());
-        formData.append("description", description.val());
-        formData.append("image", imageUpload[0].files[0]);
+                if (!name || !quantity || quantity <= 0) {
+                    isValid = false;
+                    setFieldError($(this));
+                    setFieldError($(".item-quantity").eq(index));
+                } else {
+                    setFieldValid($(this));
+                    setFieldValid($(".item-quantity").eq(index));
+                    items.push({ itemName: name, quantities: parseInt(quantity, 10) });
+                }
+            });
 
-        items.forEach((item, index) => {
-            formData.append(`itemNames[${index}]`, item.name);
-            formData.append(`quantities[${index}]`, item.quantity);
-        });
+            if (!isValid) {
+                $("#error").text(errorMessage);
+                return;
+            }
 
-        // AJAX POST request
-        $.ajax({
-            url: "http://localhost:8080/api/v1/givenrequest/create",
-            type: "POST",
-            data: formData,
-            processData: false, // Prevent jQuery from automatically transforming the data into a query string
-            contentType: false, // Use FormData's default content type
-            success: function (response) {
-                alert("Request submitted successfully!");
-                console.log(response);
-                $("#create-request-form")[0].reset(); // Reset form fields
-                $("#items-container").empty(); // Clear added items
-            },
-            error: function (xhr, status, error) {
-                alert("Failed to submit the request. Please try again.");
-                console.error("Error:", error);
-                console.error("Response:", xhr.responseText);
-            },
+            const data = {
+                title: title.val().trim(),
+                description: description.val().trim(),
+                item: items,
+            };
+
+            const formData = new FormData();
+            formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
+            for (let i = 0; i < imageUploads.length; i++) {
+                formData.append("files", imageUploads[i]);
+            }
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/givenrequest/create",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert("Request submitted successfully!");
+                    $("#create-request-form")[0].reset();
+                    $("#items-container").empty();
+                },
+                error: function (xhr) {
+                    alert(`Failed to submit the request: ${xhr.responseText}`);
+                },
+            });
+
+            function validateField(field) {
+                if (!field.val().trim()) setFieldError(field);
+                else setFieldValid(field);
+            }
+
+            function setFieldError(field) {
+                field.css("border-color", "red");
+            }
+
+            function setFieldValid(field) {
+                field.css("border-color", "");
+            }
         });
     });
 
-    // Helper functions
-    function validateField(field) {
-        if (!field.val().trim()) {
-            setFieldError(field);
-        } else {
-            setFieldValid(field);
-        }
-    }
-
-    function setFieldError(field) {
-        field.css("border-color", "red");
-    }
-
-    function setFieldValid(field) {
-        field.css("border-color", "green");
-    }
 });
