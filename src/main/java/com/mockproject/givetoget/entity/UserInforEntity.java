@@ -38,9 +38,8 @@ public class UserInforEntity {
     @OneToMany(mappedBy = "user")
     private List<RequestEntity> requests;
 
-    @OneToOne
-    @JoinColumn(name = "id_address", nullable = true)
-    private AddressEntity address;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AddressEntity> addresses;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Bình luận do người dùng tạo
     private List<TransactionEntity> transaction;
