@@ -44,7 +44,7 @@ $(document).ready(function () {
                                                   <p class="mb-0">${element.createDate}</p>
                                               </div>
                                               <p class="mb-0">${element.userName}</p>
-                                              <p class="mb-0">Address: ${element.address}</p>
+                                              <p class="mb-0">Address: ${element.requestAddress}</p>
                                               <p>Request items: ${element.itemsName}</p>
                                           </div>
                                           <p class="card-text">${element.description}</p>

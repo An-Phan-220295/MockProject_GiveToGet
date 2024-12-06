@@ -39,6 +39,7 @@ public class RequestController {
             @RequestPart("files") List<MultipartFile> files
     ) {
         int id_user = 1;
+        UserInforEntity user = userRepository.findById(id_user).orElse(null);
         try {
             // Save all files
             List<String> fileNames = imageService.saveMultipleImgItems(files);
@@ -52,7 +53,7 @@ public class RequestController {
 
             AddressEntity address = AddressEntity.builder()
                     .ward(wardRepository.findById(data.getWard()).orElse(null))
-                    .user(userRepository.findById(id_user).orElse(null))
+                    .user(user)
                     .street(data.getAddress())
                     .build();
             AddressEntity address1 = addressRepository.save(address);
@@ -67,6 +68,7 @@ public class RequestController {
                     .updateDate(LocalDateTime.now())
                     .address(address1)
                     .itemNames(items)
+                    .user(user)
                     .build();
 
 

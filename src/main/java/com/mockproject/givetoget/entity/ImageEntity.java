@@ -22,5 +22,6 @@ public class ImageEntity {
 
     @ManyToOne
     @JoinColumn(name = "id_request")
+    @JsonIgnore
     private RequestEntity requestEntity;
 }

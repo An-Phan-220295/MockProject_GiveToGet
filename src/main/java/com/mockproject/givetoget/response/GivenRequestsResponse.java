@@ -12,7 +12,7 @@ public class GivenRequestsResponse {
     private String title;
     private String createDate;
     private String userName;
-    private String address;
+    private String requestAddress;
     private String description;
     private String image;
     private String itemsName;
