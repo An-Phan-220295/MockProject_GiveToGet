@@ -144,7 +144,7 @@ function loadDetail(requestId, detailElement) {
                           request.description
                         }<br />
                         <strong>Requested by:</strong> ${request.userName}<br />
-                        <strong>Address:</strong> ${request.address}<br />
+                        <strong>Address:</strong> ${request.requestAddress}<br />
                         <strong>Items:</strong><br />
                         <ul>
                           ${Object.entries(request.items)

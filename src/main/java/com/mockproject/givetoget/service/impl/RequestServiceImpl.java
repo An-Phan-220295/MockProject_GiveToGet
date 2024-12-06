@@ -40,7 +40,8 @@ public class RequestServiceImpl implements RequestService {
             GivenRequestsResponse response = modelMapper.map(data, GivenRequestsResponse.class);
 
             // Custom mapping
-            response.setAddress(utils.convertAddressToString(data));
+            response.setUserName(data.getUser().getUsername());
+            response.setRequestAddress(utils.convertAddressToString(data));
             response.setCreateDate(utils.formatDateTime(data.getCreateDate()));
             response.setImage(data.getImageEntities() != null && !data.getImageEntities().isEmpty()
                     ? data.getImageEntities().get(0).getImageName()
