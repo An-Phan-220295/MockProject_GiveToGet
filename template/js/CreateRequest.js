@@ -32,60 +32,131 @@ $(document).ready(function () {
         $(this).closest(".row").remove();
     });
 
-    // Form validation
-    $("#create-request-form").on("submit", function (e) {
-        e.preventDefault(); // Prevent default form submission
+    $(document).ready(function () {
+        $("#create-request-form").on("submit", function (e) {
+            e.preventDefault();
 
-        let isValid = true;
-        let errorMessage = "Please fill all mandatory fields";
+            let isValid = true;
+            let errorMessage = "Please fill all mandatory fields";
 
-        // Validate Title, Description, and Image Upload
-        const title = $("#title");
-        const description = $("#description");
-        const imageUpload = $("#image-upload");
+            const title = $("#title");
+            const description = $("#description");
+            const imageUploads = $("#image-uploads")[0].files;
+            const address = $("#address");
+            const cityField = $("#city"); // jQuery object
+            const districtField = $("#district");
+            const wardField = $("#ward");
 
-        validateField(title);
-        validateField(description);
+            const city = cityField.val(); // Field value
+            const district = districtField.val();
+            const ward = wardField.val();
 
-        if (!imageUpload.val()) {
-            isValid = false;
-            setFieldError(imageUpload);
-        } else {
-            setFieldValid(imageUpload);
-        }
 
-        // Validate Items
-        $(".item-name, .item-quantity").each(function () {
-            if (!$(this).val().trim() || $(this).val() <= 0) {
+            validateField(title);
+            validateField(description);
+            validateField(address);
+            validateField(cityField); // Validate the jQuery object
+            validateField(districtField);
+            validateField(wardField);
+
+
+
+            if (!city) {
                 isValid = false;
-                setFieldError($(this));
+                setFieldError($("#city"));
             } else {
-                setFieldValid($(this));
+                setFieldValid($("#city"));
+            }
+
+            if (!district) {
+                isValid = false;
+                setFieldError($("#district"));
+            } else {
+                setFieldValid($("#district"));
+            }
+
+            if (!ward) {
+                isValid = false;
+                setFieldError($("#ward"));
+            } else {
+                setFieldValid($("#ward"));
+            }
+
+            if (!imageUploads.length) {
+                isValid = false;
+                setFieldError($("#image-uploads"));
+            } else {
+                setFieldValid($("#image-uploads"));
+            }
+
+            let items = [];
+            $(".item-name").each(function (index) {
+                const name = $(this).val().trim();
+                const quantity = $(".item-quantity").eq(index).val().trim();
+
+                if (!name || !quantity || quantity <= 0) {
+                    isValid = false;
+                    setFieldError($(this));
+                    setFieldError($(".item-quantity").eq(index));
+                } else {
+                    setFieldValid($(this));
+                    setFieldValid($(".item-quantity").eq(index));
+                    items.push({ itemName: name, quantities: parseInt(quantity, 10) });
+                }
+            });
+
+            if (!isValid) {
+                $("#error").text(errorMessage);
+                return;
+            }
+
+            const data = {
+                title: title.val().trim(),
+                description: description.val().trim(),
+                address: address.val().trim(),
+                city: city.trim(), // Use the plain string
+                district: district.trim(), // Use the plain string
+                ward: ward.trim(), // Use the plain string
+                item: items,
+            };
+
+
+            console.log(data);
+            const formData = new FormData();
+            formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
+            for (let i = 0; i < imageUploads.length; i++) {
+                formData.append("files", imageUploads[i]);
+            }
+
+            $.ajax({
+                url: "http://localhost:8080/api/v1/givenrequest/create",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    alert("Request submitted successfully!");
+                    $("#create-request-form")[0].reset();
+                    $("#items-container").empty();
+                },
+                error: function (xhr) {
+                    alert(`Failed to submit the request: ${xhr.responseText}`);
+                },
+            });
+
+            function validateField(field) {
+                if (!field.val().trim()) setFieldError(field);
+                else setFieldValid(field);
+            }
+
+            function setFieldError(field) {
+                field.css("border-color", "red");
+            }
+
+            function setFieldValid(field) {
+                field.css("border-color", "");
             }
         });
-
-        if (!isValid) {
-            $("#error").text(errorMessage);
-        } else {
-            $("#error").text("");
-            alert("Request submitted successfully!");
-        }
     });
+
 });
-
-// Helper functions
-function validateField(field) {
-    if (!field.val().trim()) {
-        setFieldError(field);
-    } else {
-        setFieldValid(field);
-    }
-}
-
-function setFieldError(field) {
-    field.css("border-color", "red");
-}
-
-function setFieldValid(field) {
-    field.css("border-color", "green");
-}

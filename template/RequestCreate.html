@@ -58,7 +58,7 @@
 </header>
 <div class="card p-4 bg-white shadow-sm">
   <h2 class="text-center mb-4" style="font-family: Georgia">Create Given Request</h2>
-  <form id="create-request-form" onsubmit="return validateRegister();" method="post" >
+  <form id="create-request-form" method="post" >
     <div id="error" class="text-center" style="color: red;"></div>
     <div class="mb-3">
       <label for="title" class="form-label">Title</label>
@@ -84,17 +84,39 @@
               type="text"
               class="form-control"
               id="address"
+              placeholder="Enter your address"
       />
     </div>
     <div class="mb-3">
-      <label for="image-upload" class="form-label">Upload Image</label>
+      <div class="row gx-2">
+        <div class="col-md-4">
+          <select id="city" class="form-select">
+            <option value="">Select City</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select id="district" class="form-select">
+            <option value="">Select District</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <select id="ward" class="form-select">
+            <option value="">Select Ward</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="image-uploads" class="form-label">Upload Images</label>
       <input
               type="file"
               class="form-control"
-              id="image-upload"
+              id="image-uploads"
               accept="image/*"
+              multiple
       />
     </div>
+
     <div class="mb-3">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <label class="form-label">Items</label>
@@ -145,5 +167,6 @@
         crossorigin="anonymous"
 ></script>
 <script src="js/CreateRequest.js"></script>
+<script src="js/location.js"></script>
 </body>
 </html>

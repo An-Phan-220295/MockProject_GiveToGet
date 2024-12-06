@@ -88,7 +88,7 @@ function loadDetail(requestId, detailElement) {
           imageItems += `
                 <div class="carousel-item ${index === 0 ? "active" : ""}">
                   <img
-                    src="../image/${image.imageName}" 
+                    src="../image/item/${image.imageName}" 
                     class="d-block w-100"
                     alt="${image.imageName}"
                     style="height: 300px; object-fit: cover"

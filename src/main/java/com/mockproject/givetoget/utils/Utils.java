@@ -19,10 +19,10 @@ public class Utils {
     public String convertAddressToString(RequestEntity data) {
         StringBuilder address = new StringBuilder();
 
-        address.append(data.getUser().getAddress().getStreet()).append(", ")
-                .append(data.getUser().getAddress().getWard().getFullName()).append(", ")
-                .append(data.getUser().getAddress().getWard().getDistrict().getFullName()).append(", ")
-                .append(data.getUser().getAddress().getWard().getDistrict().getProvince().getFullName()).append(".");
+        address.append(data.getAddress().getStreet()).append(", ")
+                .append(data.getAddress().getWard().getFullName()).append(", ")
+                .append(data.getAddress().getWard().getDistrict().getFullName()).append(", ")
+                .append(data.getAddress().getWard().getDistrict().getProvince().getFullName()).append(".");
         return address.toString();
     }
 

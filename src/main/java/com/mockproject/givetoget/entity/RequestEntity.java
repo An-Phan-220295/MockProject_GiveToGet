@@ -27,6 +27,10 @@ public class RequestEntity {
     private LocalDateTime updateDate;
     private String itemNames;
 
+    @OneToOne
+    @JoinColumn(name = "id_address")
+    private AddressEntity address;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private UserInforEntity user;
