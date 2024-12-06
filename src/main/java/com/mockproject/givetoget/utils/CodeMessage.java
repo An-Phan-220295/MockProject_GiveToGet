@@ -2,7 +2,9 @@ package com.mockproject.givetoget.utils;
 
 public enum CodeMessage {
     SUCCESS("00", "Operation successful"),
-    NO_DATA("01", "No data");
+    NO_DATA("01", "No data"),
+    UNAUTHENTICATED("02", "Unauthenticated"),
+    NO_ADDRESS("03", "No address");
 
     private final String code;
     private final String message;

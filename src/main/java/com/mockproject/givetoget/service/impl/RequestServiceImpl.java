@@ -35,25 +35,6 @@ public class RequestServiceImpl implements RequestService {
         Page<RequestEntity> requestEntities = requestRepository.findAllGivenRequest(true, "OPENING", pageable
                 , provinceCode, districtCode, wardCode, search);
 
-//        List<GivenRequestsResponse> givenRequestsResponses = new ArrayList<>();
-//        for (RequestEntity data : requestEntities.getContent()) {
-//
-//            String content = data.getDescription();
-//
-//            GivenRequestsResponse givenRequestsResponse = GivenRequestsResponse.builder()
-//                    .id(data.getId())
-//                    .title(data.getTitle())
-//                    .createDate(utils.formatDateTime(data.getCreateDate()))
-//                    .userName(data.getUser().getUsername())
-//                    .address(utils.convertAddressToString(data))
-//                    .content(content.length() > 200 ? content.substring(0, 200) + " . . ." : content)
-//                    .image(!data.getImageEntities().isEmpty() ? data.getImageEntities().get(0).getImageName() : null)
-//                    .itemsName(data.getItemNames())
-//                    .build();
-//
-//            givenRequestsResponses.add(givenRequestsResponse);
-//        }
-
         List<GivenRequestsResponse> givenRequestsResponses = requestEntities.getContent().stream().map(data -> {
             // Use ModelMapper for base mapping
             GivenRequestsResponse response = modelMapper.map(data, GivenRequestsResponse.class);
