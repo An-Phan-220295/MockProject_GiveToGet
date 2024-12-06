@@ -13,5 +13,7 @@ import java.util.List;
 public class CreateRequestData {
     private String title;
     private String description;
+    private String address;
+    private String ward;
     private List<ItemRequest> item;
 }

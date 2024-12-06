@@ -42,9 +42,45 @@ $(document).ready(function () {
             const title = $("#title");
             const description = $("#description");
             const imageUploads = $("#image-uploads")[0].files;
+            const address = $("#address");
+            const cityField = $("#city"); // jQuery object
+            const districtField = $("#district");
+            const wardField = $("#ward");
+
+            const city = cityField.val(); // Field value
+            const district = districtField.val();
+            const ward = wardField.val();
+
 
             validateField(title);
             validateField(description);
+            validateField(address);
+            validateField(cityField); // Validate the jQuery object
+            validateField(districtField);
+            validateField(wardField);
+
+
+
+            if (!city) {
+                isValid = false;
+                setFieldError($("#city"));
+            } else {
+                setFieldValid($("#city"));
+            }
+
+            if (!district) {
+                isValid = false;
+                setFieldError($("#district"));
+            } else {
+                setFieldValid($("#district"));
+            }
+
+            if (!ward) {
+                isValid = false;
+                setFieldError($("#ward"));
+            } else {
+                setFieldValid($("#ward"));
+            }
 
             if (!imageUploads.length) {
                 isValid = false;
@@ -77,9 +113,15 @@ $(document).ready(function () {
             const data = {
                 title: title.val().trim(),
                 description: description.val().trim(),
+                address: address.val().trim(),
+                city: city.trim(), // Use the plain string
+                district: district.trim(), // Use the plain string
+                ward: ward.trim(), // Use the plain string
                 item: items,
             };
 
+
+            console.log(data);
             const formData = new FormData();
             formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
             for (let i = 0; i < imageUploads.length; i++) {
