@@ -16,7 +16,7 @@ public class DetailRequestController {
     @GetMapping("/v1/givenrequest/detail")
     public ResponseEntity<?> getAllGivenRequest(@RequestParam int id) {
 
-        BaseResponse baseResponse = new BaseResponse().builder()
+        BaseResponse baseResponse = BaseResponse.builder()
                 .code(CodeMessage.SUCCESS.getCode())
                 .message(CodeMessage.SUCCESS.getMessage())
                 .data(requestDetailService.findRequestDetailById(id))

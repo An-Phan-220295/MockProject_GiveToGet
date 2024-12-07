@@ -13,14 +13,14 @@ import java.util.Optional;
 @Repository
 public interface RequestRepository extends JpaRepository<RequestEntity, Integer> {
     @Query("SELECT r FROM RequestEntity r " +
-            "WHERE r.type = :type " +
+            "WHERE r.type.typeName = :type " +
             "AND r.status.status = :status " +
             "AND (:provinceCode IS NULL OR LOWER(r.address.ward.district.province.code) LIKE CONCAT('%', LOWER(COALESCE(CAST(:provinceCode AS String), '')), '%')) " +
             "AND (:districtCode IS NULL OR LOWER(r.address.ward.district.code) LIKE CONCAT('%', LOWER(COALESCE(CAST(:districtCode AS String), '')), '%')) " +
             "AND (:wardCode IS NULL OR LOWER(r.address.ward.code) LIKE CONCAT('%', LOWER(COALESCE(CAST(:wardCode AS String), '')), '%')) " +
             "AND (:search IS NULL OR LOWER(r.title) LIKE CONCAT('%', LOWER(COALESCE(CAST(:search AS String), '')), '%')) " +
             "ORDER BY r.createDate DESC")
-    Page<RequestEntity> findAllGivenRequest(@Param("type") boolean type,
+    Page<RequestEntity> findAllGivenRequest(@Param("type") String type,
                                             @Param("status") String status,
                                             Pageable pageable,
                                             @Param("provinceCode") Optional<String> provinceCode,

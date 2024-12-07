@@ -34,19 +34,18 @@ public class UserInforEntity {
     @JoinColumn(name = "id_account")
     private AccountEntity account;
 
-
     @OneToMany(mappedBy = "user")
     private List<RequestEntity> requests;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<AddressEntity> addresses;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Bình luận do người dùng tạo
-    private List<TransactionEntity> transaction;
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // Bình luận do người dùng tạo
+//    private List<TransactionEntity> transaction;
 
     @OneToMany(mappedBy = "partner", cascade = CascadeType.ALL) // Bình luận nhắc đến người dùng này
     private List<TransactionEntity> partnerTransaction;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentEntity> commentRequest;
 }

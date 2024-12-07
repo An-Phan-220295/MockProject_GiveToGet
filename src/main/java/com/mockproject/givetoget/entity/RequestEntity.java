@@ -22,7 +22,7 @@ public class RequestEntity {
     private int id;
     private String title;
     private String description;
-    private boolean type;
+//    private boolean type;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private String itemNames;
@@ -38,12 +38,13 @@ public class RequestEntity {
     @OneToMany(mappedBy = "request")
     private List<TransactionEntity> transactions;
 
-    @OneToMany(mappedBy = "request")
-    private List<CommentEntity> comments;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
     private RequestStatusEntity status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_type", nullable = false)
+    private RequestTypeEntity type;
 
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemEntity> item;

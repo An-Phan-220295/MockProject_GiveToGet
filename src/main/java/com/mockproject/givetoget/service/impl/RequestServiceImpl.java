@@ -1,5 +1,7 @@
 package com.mockproject.givetoget.service.impl;
 
+import com.mockproject.givetoget.config.dataseed.enumdata.RequestStatus;
+import com.mockproject.givetoget.config.dataseed.enumdata.RequestType;
 import com.mockproject.givetoget.entity.RequestEntity;
 import com.mockproject.givetoget.response.DataResponse;
 import com.mockproject.givetoget.repository.RequestRepository;
@@ -32,7 +34,8 @@ public class RequestServiceImpl implements RequestService {
     public DataResponse<List<GivenRequestsResponse>> findAllGivenRequest(int pageNumber, Optional<String> provinceCode
             , Optional<String> districtCode, Optional<String> wardCode, Optional<String> search) {
         Pageable pageable = PageRequest.of(pageNumber, 5);
-        Page<RequestEntity> requestEntities = requestRepository.findAllGivenRequest(true, "OPENING", pageable
+        Page<RequestEntity> requestEntities = requestRepository.findAllGivenRequest(RequestType.GIVEN_REQUEST.getRequestType()
+                , RequestStatus.OPENING.getRequestStatus(), pageable
                 , provinceCode, districtCode, wardCode, search);
 
         List<GivenRequestsResponse> givenRequestsResponses = requestEntities.getContent().stream().map(data -> {

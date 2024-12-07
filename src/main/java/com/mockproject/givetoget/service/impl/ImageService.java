@@ -1,4 +1,4 @@
-package com.mockproject.givetoget.service;
+package com.mockproject.givetoget.service.impl;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,8 +12,8 @@ import java.util.List;
 
 @Service
 public class ImageService {
-    private static final String STORAGE_PATH = "C:\\game\\Learning\\Workspaces\\MockProject_GiveToGet\\image";
-//    private static final String STORAGE_PATH = "D:\\GitHub\\MockProject_GiveToGet\\image";
+//    private static final String STORAGE_PATH = "C:\\game\\Learning\\Workspaces\\MockProject_GiveToGet\\image";
+    private static final String STORAGE_PATH = "D:\\GitHub\\MockProject_GiveToGet\\image";
     private static final String STORAGE_ITEM_DIRECTORY = "\\item";
 
     public List<String> saveMultipleImgItems(List<MultipartFile> files) throws IOException {
