@@ -38,13 +38,16 @@ public class RequestEntity {
     @OneToMany(mappedBy = "request")
     private List<TransactionEntity> transactions;
 
+    @OneToMany(mappedBy = "request")
+    private List<CommentEntity> comments;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
-    private StatusEntity status;
+    private RequestStatusEntity status;
 
     @OneToMany(mappedBy = "request", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemEntity> item;
 
     @OneToMany(mappedBy = "requestEntity", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ImageEntity> imageEntities;
+    private List<ImageEntity> images;
 }

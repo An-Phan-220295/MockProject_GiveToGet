@@ -8,8 +8,8 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "comment_request")
-public class CommentRequestEntity {
+@Table(name = "comment")
+public class CommentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,11 +18,15 @@ public class CommentRequestEntity {
     private LocalDate updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_transaction")
-    private TransactionEntity transaction;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", nullable = false)
     private UserInforEntity users;
+
+    @ManyToOne
+    @JoinColumn(name = "id_partner", nullable = true) // Người liên quan
+    private UserInforEntity partner;
+
+    @ManyToOne
+    @JoinColumn(name = "id_request", nullable = true) // Người liên quan
+    private RequestEntity request;
 }
 

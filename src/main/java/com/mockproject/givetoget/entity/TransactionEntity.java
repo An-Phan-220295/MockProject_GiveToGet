@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity
@@ -15,7 +14,6 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDateTime createdDate;
-
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false) // Người tạo bình luận
@@ -31,8 +29,8 @@ public class TransactionEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_status", nullable = false)
-    private StatusEntity status;
+    private TransactionStatusEntity status;
 
-    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentRequestEntity> commentRequest;
+//    @OneToMany(mappedBy = "", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ItemEntity> itemEntities;
 }
