@@ -48,5 +48,5 @@ public class UserInforEntity {
     private List<TransactionEntity> partnerTransaction;
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CommentRequestEntity> commentRequest;
+    private List<CommentEntity> commentRequest;
 }

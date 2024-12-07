@@ -37,7 +37,7 @@ public class RequestDetailServiceImpl implements RequestDetailService {
         for (ItemEntity data : requestEntity.getItem()) {
             items.put(data.getItemName(), data.getQuantity());
         }
-        response.setImages(requestEntity.getImageEntities());
+        response.setImages(requestEntity.getImages());
         response.setItems(items);
         response.setCreateDate(utils.formatDateTime(requestEntity.getCreateDate()));
         response.setRequestAddress(utils.convertAddressToString(requestEntity));

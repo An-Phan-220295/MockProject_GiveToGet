@@ -43,8 +43,8 @@ public class RequestServiceImpl implements RequestService {
             response.setUserName(data.getUser().getUsername());
             response.setRequestAddress(utils.convertAddressToString(data));
             response.setCreateDate(utils.formatDateTime(data.getCreateDate()));
-            response.setImage(data.getImageEntities() != null && !data.getImageEntities().isEmpty()
-                    ? data.getImageEntities().get(0).getImageName()
+            response.setImage(data.getImages() != null && !data.getImages().isEmpty()
+                    ? data.getImages().get(0).getImageName()
                     : null);
             response.setItemsName(data.getItemNames());
 

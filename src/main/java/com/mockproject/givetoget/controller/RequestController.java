@@ -82,7 +82,7 @@ public class RequestController {
             for (String fileName : fileNames) {
                 images.add(ImageEntity.builder().requestEntity(request).imageName(fileName).build());
             }
-            request.setImageEntities(images);
+            request.setImages(images);
             request = requestRepository.save(request);
 
 
