@@ -1,10 +1,12 @@
 package com.mockproject.givetoget.controller;
 
+import com.mockproject.givetoget.config.dataseed.enumdata.RequestStatus;
+import com.mockproject.givetoget.config.dataseed.enumdata.RequestType;
 import com.mockproject.givetoget.entity.*;
 import com.mockproject.givetoget.repository.*;
 import com.mockproject.givetoget.request.CreateRequestData;
 import com.mockproject.givetoget.request.ItemRequest;
-import com.mockproject.givetoget.service.ImageService;
+import com.mockproject.givetoget.service.impl.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,22 +18,22 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class RequestController {
-
     @Autowired
     private WardRepository wardRepository;
-
     @Autowired
     private RequestRepository requestRepository;
-
     @Autowired
     private AddressRepository addressRepository;
     @Autowired
     private ImageService imageService;
-
     @Autowired
     private StatusRepository statusRepository;
     @Autowired
-    private UserRepository userRepository;
+    private UserInfoRepository userInfoRepository;
+    @Autowired
+    private RequestTypeRepository requestTypeRepository;
+    @Autowired
+    private RequestStatusRepository requestStatusRepository;
 
     @PostMapping("/v1/givenrequest/create")
     public String createRequest(
@@ -39,11 +41,10 @@ public class RequestController {
             @RequestPart("files") List<MultipartFile> files
     ) {
         int id_user = 1;
-        UserInforEntity user = userRepository.findById(id_user).orElse(null);
+        UserInforEntity user = userInfoRepository.findById(id_user).orElse(null);
         try {
             // Save all files
             List<String> fileNames = imageService.saveMultipleImgItems(files);
-
 
 
             // Combine item names
@@ -63,7 +64,8 @@ public class RequestController {
                     .title(data.getTitle())
                     .description(data.getDescription())
                     .status(statusRepository.findById(1))
-                    .type(true)
+                    .type(requestTypeRepository.findById(RequestType.GIVEN_REQUEST.getId()).orElse(null))
+                    .status(requestStatusRepository.findById(RequestStatus.OPENING.getId()).orElse(null))
                     .createDate(LocalDateTime.now())
                     .updateDate(LocalDateTime.now())
                     .address(address1)
@@ -73,9 +75,6 @@ public class RequestController {
 
 
             request = requestRepository.save(request);
-
-
-
 
 
             List<ImageEntity> images = new ArrayList<>();

@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "transaction_status")
-public class TransactionStatusEntity {
+@Table(name = "transaction_confirm_status")
+public class TransactionConfirmStatusEntity {
     @Id
     private int id;
     private String statusName;

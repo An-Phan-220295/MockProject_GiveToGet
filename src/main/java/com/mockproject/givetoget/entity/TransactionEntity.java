@@ -2,11 +2,16 @@ package com.mockproject.givetoget.entity;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Getter
+@Setter
 @Entity
 @Table(name = "transaction")
 public class TransactionEntity {
@@ -14,10 +19,11 @@ public class TransactionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDateTime createdDate;
+    private LocalDateTime updateDate;
 
-    @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false) // Người tạo bình luận
-    private UserInforEntity user;
+//    @ManyToOne
+//    @JoinColumn(name = "id_user", nullable = false) // Người tạo bình luận
+//    private UserInforEntity user;
 
     @ManyToOne
     @JoinColumn(name = "id_partner", nullable = true) // Người liên quan
@@ -31,6 +37,14 @@ public class TransactionEntity {
     @JoinColumn(name = "id_status", nullable = false)
     private TransactionStatusEntity status;
 
-//    @OneToMany(mappedBy = "", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<ItemEntity> itemEntities;
+    @OneToMany(mappedBy = "transaction")
+    private List<CommentEntity> comments;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_confirm", nullable = false)
+    private TransactionConfirmStatusEntity userConfirmStatus;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "part_confirm", nullable = false)
+    private TransactionConfirmStatusEntity partnerConfirmStatus;
 }

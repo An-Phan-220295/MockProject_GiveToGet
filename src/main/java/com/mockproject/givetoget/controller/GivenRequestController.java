@@ -25,7 +25,7 @@ public class GivenRequestController {
                                                 @RequestParam(required = false) String districtCode,
                                                 @RequestParam(required = false) String wardCode,
                                                 @RequestParam(required = false) String search) {
-        BaseResponse baseResponse = new BaseResponse().builder()
+        BaseResponse baseResponse = BaseResponse.builder()
                 .code(CodeMessage.SUCCESS.getCode())
                 .message(CodeMessage.SUCCESS.getMessage())
                 .data(requestService.findAllGivenRequest(pageNumber, Optional.ofNullable(provinceCode)

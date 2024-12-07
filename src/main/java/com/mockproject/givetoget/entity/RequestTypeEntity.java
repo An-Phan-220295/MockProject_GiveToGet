@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "transaction_status")
-public class TransactionStatusEntity {
+@Table(name = "request_type")
+public class RequestTypeEntity {
     @Id
     private int id;
-    private String statusName;
+    private String typeName;
 }
